@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>遊戲分數</title>
+    <style>
+        /* 您之前的 CSS 样式 */
+    </style>
+</head>
+<body>    
+    <div class="score-container">
+        <div class="level-title">第一關分數</div>
+        <div class="score" id="score1">加载中...</div>
+
+        <div class="level-title">第二關分數</div>
+        <div class="score" id="score2">加载中...</div>
+
+        <div class="level-title">第三關分數</div>
+        <div class="score" id="score3">加载中...</div>
+    </div>
+
+    <script>
+        // 确保 DOM 完全加载
+        document.addEventListener('DOMContentLoaded', function () {
+            fetchScores();
+        });
+
+        function fetchScores() {
+            fetch('http://localhost:3000/scores')
+                .then(response => response.json())
+                .then(data => {
+                    // 更新每个关卡的分数
+                    for (let level in data) {
+                        const scoreElement = document.getElementById(`score${level}`);
+                        if (scoreElement) {
+                            scoreElement.textContent = data[level];
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching scores:', error);
+                });
+        }
+    </script>
+</body>
+</html>
